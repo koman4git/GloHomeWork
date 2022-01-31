@@ -1,3 +1,4 @@
+'use strict';
 let title = "Первый проект";
 let screens = "Простые, Сложные, Интерактивные";
 let screenPrice = 15000;
