@@ -1,5 +1,5 @@
 'use strict';
-let title = prompt("Как называется ваш проект?", "Калькулятор"),
+let title = prompt("Как называется ваш проект?", "калькулятор"),
     screens = prompt("Какие типы экранов нужно разработать?", "Простые, Сложные, Интерактивные"),
     screenPrice = +prompt("Сколько будет стоить данная работа?", "12000"),
     adaptive = confirm("Нужен ли адаптив на сайте?"),
@@ -37,8 +37,8 @@ const getFullPrice = function(price1, price2) {
 }
 
 const getTitle = function(str){
-  if (!str) return str;
-  return str[0].toUpperCase() + str.slice(1);
+  str.trim();
+  return str.charAt(0).toUpperCase(0) + str.slice(1);
 }
 
 const getServicePercentPrices = function(total,sum1){
@@ -49,9 +49,11 @@ allServicePrices = getAllServicePrices(servicePrice1,servicePrice2);
 fullPrice = getFullPrice(screenPrice,allServicePrices);
 servicePercentPrice = getServicePercentPrices(fullPrice,rollback);
 
-showTypeOf(title);
+console.log(getTitle(title));
+showTypeOf(getTitle(title));
 showTypeOf(fullPrice);
 showTypeOf(adaptive);
+
 console.log(screens);
 console.log(getRollbackMessage(fullPrice));
 console.log(servicePercentPrice);
