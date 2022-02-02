@@ -1,20 +1,48 @@
 'use strict';
-let title = prompt("Как называется ваш проект?", "калькулятор"),
-    screens = prompt("Какие типы экранов нужно разработать?", "Простые, Сложные, Интерактивные"),
-    screenPrice = +prompt("Сколько будет стоить данная работа?", "12000"),
-    adaptive = confirm("Нужен ли адаптив на сайте?"),
-    service1 = prompt("Какой дополнительный тип услуги нужен?", "Хостинг"),
-    servicePrice1 = +prompt("Сколько это будет стоить?", "2000"),
-    service2 = prompt("Какой дополнительный тип услуги нужен?", "Продвижение сайта"),
-    servicePrice2 = +prompt("Сколько это будет стоить?", "3000"),
+let title,
+    screens,
+    screenPrice,
+    adaptive,
     rollback = +(Math.ceil(Math.random()*100)),
-    fullPrice = 0,
-    allServicePrices = 0,
-    servicePercentPrice = 0;
+    fullPrice,
+    allServicePrices,
+    servicePercentPrice,
+    service1,
+    servicePrice1,
+    service2,
+    servicePrice2;
+
+const isNumber = function (num) {
+  return !isNan(parseFloat(num)) && isFinite(num);
+};
+
+const asking = function () {
+  title = prompt("Как называется ваш проект?", "калькулятор верстки");
+  screens = prompt("Какие типы экранов нужно разработать?", "Простые, Сложные, Интерактивные");
+  screenPrice = prompt("Сколько будет стоить данная работа?");
+
+  while (!isNumber(screenPrice)) {
+    screenPrice = prompt("Сколько будет стоить данная работа?");
+  }
+  adaptive = confirm("Нужен ли адаптив на сайте?");
+};
+
+  const getAllServicePrices = function() {
+    let sum = 0;
+    for (let i = 0; i < 2; i++) {
+      if (i === 0) {
+        service1 = prompt("Какой дополнительный тип услуги нужен?");
+      } else if (i === 1) {
+        service2 = prompt("Какой дополнительный тип услуги нужен?");
+      }
+      sum += +prompt("Сколько это будет стоить?");
+    }
+    return sum;
+};
 
 const showTypeOf = function(variable) {
   console.log(variable, typeof variable);
-}
+};
 //конструкция условий расчета
 const getRollbackMessage = function(price) {
   if (price >= 30000) {
@@ -26,33 +54,32 @@ const getRollbackMessage = function(price) {
   } else {
     return "Что то пошло не так";
   }
-}
+};
 
-const getAllServicePrices = function(price1, price2) {
-  return price1 + price2;
-}
+const getFullPrice = function() {
+  return screenPrice + allServicePrices;
+};
 
-const getFullPrice = function(price1, price2) {
-  return price1 + price2;
-}
+const getTitle = function(){
+  title.trim();
+  return title.charAt(0).toUpperCase(0) + title.slice(1);
+};
 
-const getTitle = function(str){
-  str.trim();
-  return str.charAt(0).toUpperCase(0) + str.slice(1);
-}
+const getServicePercentPrices = function(){
+  return fullPrice - (fullPrice * (rollback / 100));
+};
 
-const getServicePercentPrices = function(total,sum1){
-  return total - sum1;
-}
+asking();
+allServicePrices = getAllServicePrices();
+fullPrice = getFullPrice();
+servicePercentPrice = getServicePercentPrices();
+title = getTitle();
 
-allServicePrices = getAllServicePrices(servicePrice1,servicePrice2);
-fullPrice = getFullPrice(screenPrice,allServicePrices);
-servicePercentPrice = getServicePercentPrices(fullPrice,rollback);
-
-console.log(getTitle(title));
-showTypeOf(getTitle(title));
-showTypeOf(fullPrice);
+showTypeOf(title);
+showTypeOf(screenPrice);
 showTypeOf(adaptive);
+
+console.log("allServicePrices", allServicePrices);
 
 console.log(screens);
 console.log(getRollbackMessage(fullPrice));
