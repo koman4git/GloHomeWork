@@ -84,10 +84,10 @@ showTypeOf(title);
 showTypeOf(screenPrice);
 showTypeOf(adaptive);
 
-console.log("allServicePrices", allServicePrices);
+console.log("allServicePrices", allServicePrices, typeof allServicePrices);
 
-console.log(screens);
+console.log(screens, typeof screens);
 console.log(getRollbackMessage(fullPrice));
-console.log(servicePercentPrice);
+console.log(servicePercentPrice, typeof servicePercentPrice);
 
 
