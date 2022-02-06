@@ -55,8 +55,7 @@ const appData = {
       return appData.screenPrice + appData.allServicePrices;
     },
     getTitle: function(){
-      appData.title.trim();
-      return appData.title.charAt(0).toUpperCase(0) + appData.title.slice(1);
+      return appData.title.trim()[0].toUpperCase() + appData.title.trim().substr(1).toLowerCase();
     },
     getServicePercentPrices: function(){
       return appData.fullPrice - (appData.fullPrice * (appData.rollback / 100));
