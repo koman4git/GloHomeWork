@@ -11,11 +11,16 @@ const appData = {
     servicePercentPrice: 0,
     services: {},
     asking: function () {
-      appData.title = prompt("Как называется ваш проект?", "калькулятор верстки");
-            
-       for (let i = 0; i < 2; i++) {
-          let name =  prompt("Какие типы экранов нужно разработать?");
+      do {
+        appData.title = prompt("Как называется ваш проект?");
+      } while (appData.isNumber(appData.title));
+      
+      for (let i = 0; i < 2; i++) {
+          let name;
           let price = 0;
+          do {
+            name =  prompt("Какие типы экранов нужно разработать?");
+          } while (appData.isNumber(name) && name !== 'null');
           do {
             price = prompt("Сколько будет стоить данная работа?");
           }
@@ -24,8 +29,11 @@ const appData = {
         }
 
         for (let i = 0; i < 2; i++) { 
-          let name = prompt("Какой дополнительный тип услуги нужен?");
+          let name;
           let price = 0;
+          do {
+            name =  prompt("Какой дополнительный тип услуги нужен?");
+          } while (appData.isNumber(name));
           do {
             price = prompt("Сколько это будет стоить?");
           }
@@ -39,9 +47,11 @@ const appData = {
           appData.screenPrice += +screen.price;
         }
 
+      
       for (let key in appData.services) {
-        appData.allServicePrices += appData.services[key]
+        appData.allServicePrices += appData.services[key];
       }
+      
     },
     isNumber: function (num) {
       return !isNaN(parseFloat(num)) && isFinite(num) && num != ' ';
@@ -79,6 +89,7 @@ const appData = {
       console.log(appData.fullPrice);
       console.log(appData.servicePercentPrice);
       console.log(appData.screens);
+      console.log(appData.services);
     },
 }
 appData.start();
