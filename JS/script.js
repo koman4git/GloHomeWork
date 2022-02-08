@@ -12,17 +12,17 @@ const appData = {
     services: {},
     asking: function () {
       do {
-        appData.title = prompt("Как называется ваш проект?");
-      } while (appData.isNumber(appData.title));
+        appData.title = prompt("Как называется ваш проект?", 'Калькулятор верстки');
+      } while (!appData.isString(appData.title));
       
       for (let i = 0; i < 2; i++) {
           let name;
           let price = 0;
           do {
-            name =  prompt("Какие типы экранов нужно разработать?");
-          } while (appData.isNumber(name) && name !== 'null');
+            name =  prompt("Какие типы экранов нужно разработать?", 'Простые или сложные');
+          } while (!appData.isString(name));
           do {
-            price = prompt("Сколько будет стоить данная работа?");
+            price = prompt("Сколько будет стоить данная работа?", '20000');
           }
           while (!appData.isNumber(price));
           appData.screens.push({id: i, name: name, price: price});
@@ -32,13 +32,13 @@ const appData = {
           let name;
           let price = 0;
           do {
-            name =  prompt("Какой дополнительный тип услуги нужен?");
-          } while (appData.isNumber(name));
+            name =  prompt("Какой дополнительный тип услуги нужен?", 'Метрика, отправка форм');
+          } while (!appData.isString(name));
           do {
-            price = prompt("Сколько это будет стоить?");
+            price = prompt("Сколько это будет стоить?", '1000');
           }
           while (!appData.isNumber(price));
-          appData.services[name] = +price;  
+          appData.services[name + ' ' + i] = +price;  
           }
           appData.adaptive = confirm("Нужен ли адаптив на сайте?");
     },
@@ -52,6 +52,9 @@ const appData = {
         appData.allServicePrices += appData.services[key];
       }
       
+    },
+    isString: function(str) {
+      return isNaN(parseFloat(str)) && !isFinite(str) && str != ' ';
     },
     isNumber: function (num) {
       return !isNaN(parseFloat(num)) && isFinite(num) && num != ' ';
@@ -76,6 +79,12 @@ const appData = {
     getServicePercentPrices: function(){
       appData.servicePercentPrice =  appData.fullPrice - (appData.fullPrice * (appData.rollback / 100));
     },
+    logger: function() {
+      console.log(appData.fullPrice);
+      console.log(appData.servicePercentPrice);
+      console.log(appData.screens);
+      console.log(appData.services);
+    },
     start: function() {
       appData.asking();
       appData.addPrices();
@@ -84,13 +93,8 @@ const appData = {
       appData.getTitle();
       appData.logger();
       appData.getRollbackMessage();
-    },
-    logger: function() {
-      console.log(appData.fullPrice);
-      console.log(appData.servicePercentPrice);
-      console.log(appData.screens);
-      console.log(appData.services);
-    },
+    }
+    
 }
 appData.start();
     
