@@ -1,4 +1,24 @@
 'use strict';
+const title = document.getElementsByTagName('h1'),
+      handlerBtn = document.getElementsByClassName('.handler_btn'),
+      screenBtn = document.querySelector('.screen-btn'),
+      otherItemsPercent = document.querySelectorAll('.other-items.percent'),
+      otherItemsNumber  = document.querySelectorAll('.other-items.number '),
+      typeRange = document.querySelector('.rollback  input'),
+      spanRangeValue = document.querySelector('.rollback  span'),
+      totalInput = document.getElementsByClassName('total-input');
+let screen = document.querySelectorAll('.screen');
+
+for (let i = 0; i < totalInput.length; i++) {
+  console.log(totalInput[i]);
+}
+console.log(screen);
+console.log(title[0]);
+console.log(handlerBtn);
+console.log(otherItemsPercent);
+console.log(otherItemsNumber);
+console.log(typeRange);
+console.log(spanRangeValue);
 
 const appData = {
     title: '',
