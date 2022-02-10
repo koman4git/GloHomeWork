@@ -7,11 +7,11 @@ const title = document.getElementsByTagName('h1'),
       typeRange = document.querySelector('.rollback  input'),
       spanRangeValue = document.querySelector('.rollback  span'),
       totalInput = document.getElementsByClassName('total-input'),
-      totalInput1 = totalInput[0],
-      totalInput2 = totalInput[1],
-      totalInput3 = totalInput[2],
-      totalInput4 = totalInput[3],
-      totalInput5 = totalInput[4];
+      totalInputCost = totalInput[0],
+      totalInputTotalCount = totalInput[1],
+      totalInputTotalCountOther = totalInput[2],
+      totalInputTotalFullCount = totalInput[3],
+      totalInputTotalCountRollback = totalInput[4];
 
 let screen = document.querySelectorAll('.screen');
 
