@@ -23,7 +23,8 @@ const appData = {
     adaptive: true,
     rollback: 10,
     fullPrice: 0,
-    allServicePrices: 0,
+    servicePricesPersent: 0,
+    servicePricesNumber: 0,
     servicePercentPrice: 0,
     servicesPersent: {},
     servicesNumber: {},
@@ -39,10 +40,15 @@ const appData = {
       appData.addscreens();
       appData.addServises();
       appData.addPrices();
-      // appData.getFullPrice();
       // appData.getServicePercentPrices();
       // appData.logger();
       // appData.getRollbackMessage();
+      appData.showResult();
+    },
+    showResult: function () {
+      InputCost.value = appData.screenPrice;
+      TotalCountOther.value = appData.servicePricesPersent + appData.servicePricesNumber;
+      TotalFullCount.value = appData.fullPrice;
     },
     addscreens: function () {
       screens = document.querySelectorAll('.screen');
@@ -76,7 +82,7 @@ const appData = {
           appData.servicesNumber[label.textContent] = +input.value;
         }
       });
-      console.log(appData);
+      
     },
     addScreenBlock: function () {
       const clonScreen = screens[0].cloneNode(true);
@@ -88,13 +94,14 @@ const appData = {
         }
 
       
-      for (let key in appData.services) {
-        appData.allServicePrices += appData.services[key];
+      for (let key in appData.servicesNumber) {
+        appData.servicePricesNumber += appData.servicesNumber[key];
       }
-      
-    },
-    isString: function(str) {
-      return isNaN(parseFloat(str)) && !isFinite(str) && str != ' ';
+
+      for (let key in appData.servicesPersent) {
+        appData.servicePricesPersent += appData.screenPrice * (appData.servicesPersent[key] / 100);
+      }
+      appData.fullPrice =  appData.screenPrice + appData.servicePricesNumber + appData.servicePricesPersent;
     },
     getRollbackMessage: function(price) {
       if (price >= 30000) {
@@ -106,9 +113,6 @@ const appData = {
       } else {
         return "Что то пошло не так";
       }
-    },
-    getFullPrice: function() {
-      appData.fullPrice =  appData.screenPrice + appData.allServicePrices;
     },
     getServicePercentPrices: function(){
       appData.servicePercentPrice =  appData.fullPrice - (appData.fullPrice * (appData.rollback / 100));
