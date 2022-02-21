@@ -28,12 +28,13 @@ const appData = {
     services: {},
     init: function () {
       appData.addTitle();
-      appData.start();
+      startBtn.addEventListener('click', appData.start);
     },
     addTitle: function () {
       document.title = title.textContent;
     },
     start: function() {
+      alert('Start');
       // appData.asking();
       // appData.addPrices();
       // appData.getFullPrice();
