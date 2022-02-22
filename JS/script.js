@@ -43,7 +43,6 @@ const appData = {
       appData.addServises();
       appData.changeRange();
       appData.addPrices();
-      // appData.getServicePercentPrices();
       // appData.logger();
       // appData.getRollbackMessage();
       appData.showResult();
@@ -52,6 +51,7 @@ const appData = {
       InputCost.value = appData.screenPrice;
       TotalCountOther.value = appData.servicePricesPersent + appData.servicePricesNumber;
       TotalFullCount.value = appData.fullPrice;
+      TotalCountRollback.value = appData.servicePercentPrice;
     },
     addscreens: function () {
       screens = document.querySelectorAll('.screen');
@@ -96,7 +96,6 @@ const appData = {
           appData.screenPrice += +screen.price;
         }
 
-      
       for (let key in appData.servicesNumber) {
         appData.servicePricesNumber += appData.servicesNumber[key];
       }
@@ -105,6 +104,8 @@ const appData = {
         appData.servicePricesPersent += appData.screenPrice * (appData.servicesPersent[key] / 100);
       }
       appData.fullPrice =  appData.screenPrice + appData.servicePricesNumber + appData.servicePricesPersent;
+
+      appData.servicePercentPrice =  appData.fullPrice - (appData.fullPrice * (appData.rollback / 100));
     },
     changeRange: function () {
      let arr = [];
@@ -114,7 +115,6 @@ const appData = {
         typeRangeSpan.textContent = typeRange.value + '%';
         appData.rollback = typeRange.value;
       }
-      console.log(appData.rollback);
     },
     getRollbackMessage: function(price) {
       if (price >= 30000) {
@@ -127,14 +127,10 @@ const appData = {
         return "Что то пошло не так";
       }
     },
-    getServicePercentPrices: function(){
-      appData.servicePercentPrice =  appData.fullPrice - (appData.fullPrice * (appData.rollback / 100));
-    },
     logger: function() {
       console.log(appData.fullPrice);
       console.log(appData.servicePercentPrice);
       console.log(appData.screens);
-      
     }
     
 };
