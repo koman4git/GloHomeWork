@@ -6,7 +6,8 @@ const title = document.getElementsByTagName('h1')[0],
       otherItemsPercent = document.querySelectorAll('.other-items.percent'),
       otherItemsNumber  = document.querySelectorAll('.other-items.number '),
       typeRange = document.querySelector('.rollback  input'),
-      inputRangeValue = document.querySelector('.rollback  .range-value'),
+      typeRangeSpan = document.querySelector('.rollback  span'),
+      // inputRangeValue = document.querySelector('.rollback  .range-value'),
       InputCost = document.getElementsByClassName('total-input')[0],
       TotalCount = document.getElementsByClassName('total-input')[1],
       TotalCountOther = document.getElementsByClassName('total-input')[2],
@@ -32,6 +33,7 @@ const appData = {
       appData.addTitle();
       startBtn.addEventListener('click', appData.start);
       screenBtn.addEventListener('click', appData.addScreenBlock);
+      typeRange.addEventListener('click', appData.changeRange);
     },
     addTitle: function () {
       document.title = title.textContent;
@@ -39,6 +41,7 @@ const appData = {
     start: function() {
       appData.addscreens();
       appData.addServises();
+      appData.changeRange();
       appData.addPrices();
       // appData.getServicePercentPrices();
       // appData.logger();
@@ -56,11 +59,11 @@ const appData = {
         const select = screen.querySelector('select');
         const input = screen.querySelector('input');
         const selectName = select.options[select.selectedIndex].textContent;
-        appData.screens.push({
+         appData.screens.push({
           id: index, 
           name: selectName, 
           price: +select.value * +input.value
-        })
+        });
       });
     },
     addServises: function () {
@@ -102,6 +105,16 @@ const appData = {
         appData.servicePricesPersent += appData.screenPrice * (appData.servicesPersent[key] / 100);
       }
       appData.fullPrice =  appData.screenPrice + appData.servicePricesNumber + appData.servicePricesPersent;
+    },
+    changeRange: function () {
+     let arr = [];
+     for (let i = 0; i <= 100; i++) {
+        arr.push(i);
+        typeRange.textContent = parseInt(arr[i]);
+        typeRangeSpan.textContent = typeRange.value + '%';
+        appData.rollback = typeRange.value;
+      }
+      console.log(appData.rollback);
     },
     getRollbackMessage: function(price) {
       if (price >= 30000) {
