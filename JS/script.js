@@ -11,7 +11,9 @@ const title = document.getElementsByTagName('h1')[0],
       TotalCount = document.getElementsByClassName('total-input')[1],
       TotalCountOther = document.getElementsByClassName('total-input')[2],
       TotalFullCount = document.getElementsByClassName('total-input')[3],
-      TotalCountRollback = document.getElementsByClassName('total-input')[4];
+      TotalCountRollback = document.getElementsByClassName('total-input')[4],
+      selectField = document.querySelector('.screen select'),
+      inputField = document.querySelector('.screen input');
 
 let screens = document.querySelectorAll('.screen');
 
@@ -35,26 +37,30 @@ const appData = {
       screenBtn.addEventListener('click', appData.addScreenBlock);
       typeRange.addEventListener('click', () => {
         appData.changeRange();
-        appData.startStop();    
+        appData.changeRollbackAfterstartBtn();    
       });
-      
+          
     },
     addTitle: function () {
       document.title = title.textContent;
     },
-    startStop: function () {
+    changeRollbackAfterstartBtn: function () {
       appData.changeRange();
       appData.changeServicePercentPrice();
-      // appData.logger();
       appData.showResult();
     },
     start: function() {
-      appData.addscreens();
+      if (selectField.value !== '' && inputField.value !== '') {
+        appData.addScreens();
       appData.addServises();
       appData.changeRange();
       appData.addPrices();
       // appData.logger();
       appData.showResult();
+      } else {
+        alert("Заполните все поля в разделе 'Расчет по типу экрана'");
+      }
+      
     },
     showResult: function () {
       InputCost.value = appData.screenPrice;
@@ -62,9 +68,8 @@ const appData = {
       TotalFullCount.value = appData.fullPrice;
       TotalCountRollback.value = appData.servicePercentPrice;
       TotalCount.value = appData.screenCount;
-
     },
-    addscreens: function () {
+    addScreens: function () {
       appData.screens.length = 0;
       screens = document.querySelectorAll('.screen');
       screens.forEach(function (screen, index) {
@@ -126,10 +131,6 @@ const appData = {
         }
     },
     changeServicePercentPrice: function () {
-      for (let screen of appData.screens) {
-          appData.screenPrice += +screen.price;
-        }
-
       
       appData.fullPrice =  appData.screenPrice + appData.servicePricesNumber + appData.servicePricesPersent;
 
