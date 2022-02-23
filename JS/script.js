@@ -1,4 +1,5 @@
 'use strict';
+let screens = document.querySelectorAll('.screen');
 const title = document.getElementsByTagName('h1')[0],
       startBtn = document.getElementsByClassName('handler_btn')[0],
       resetBtn = document.getElementsByClassName('handler_btn')[1],
@@ -12,10 +13,9 @@ const title = document.getElementsByTagName('h1')[0],
       TotalCountOther = document.getElementsByClassName('total-input')[2],
       TotalFullCount = document.getElementsByClassName('total-input')[3],
       TotalCountRollback = document.getElementsByClassName('total-input')[4],
-      selectField = document.querySelector('.screen select'),
-      inputField = document.querySelector('.screen input');
+      clonScreen = screens[0].cloneNode(true);
+      
 
-let screens = document.querySelectorAll('.screen');
 
 
 const appData = {
@@ -31,36 +31,38 @@ const appData = {
     servicePercentPrice: 0,
     servicesPersent: {},
     servicesNumber: {},
+    isNotEmpty: true,
     init: function () {
       appData.addTitle();
-      startBtn.addEventListener('click', appData.start);
+      startBtn.addEventListener('click', appData.checkForEmpty);
       screenBtn.addEventListener('click', appData.addScreenBlock);
-      typeRange.addEventListener('click', () => {
-        appData.changeRange();
-        appData.changeRollbackAfterstartBtn();    
-      });
-          
+      typeRange.addEventListener('input', appData.changeRange);
     },
     addTitle: function () {
       document.title = title.textContent;
     },
-    changeRollbackAfterstartBtn: function () {
-      appData.changeRange();
-      appData.changeServicePercentPrice();
-      appData.showResult();
+    checkForEmpty: function () {
+      appData.isNotEmpty = true;
+      screens.forEach(function (screen) {
+        const select = screen.querySelector('select');
+        const input = screen.querySelector('input');
+
+        if (!select.value || !input.value) {
+          appData.isNotEmpty = false;
+        }
+      });
+      if (appData.isNotEmpty) {
+        appData.start();
+      } else {
+        alert('Заполните все поля в разделе Расчет типов экрана');
+      }
     },
     start: function() {
-      if (selectField.value !== '' && inputField.value !== '') {
         appData.addScreens();
-      appData.addServises();
-      appData.changeRange();
-      appData.addPrices();
+        appData.addServises();
+        appData.addPrices();
       // appData.logger();
-      appData.showResult();
-      } else {
-        alert("Заполните все поля в разделе 'Расчет по типу экрана'");
-      }
-      
+        appData.showResult();
     },
     showResult: function () {
       InputCost.value = appData.screenPrice;
@@ -107,8 +109,8 @@ const appData = {
       
     },
     addScreenBlock: function () {
-      const clonScreen = screens[0].cloneNode(true);
-      screens[screens.length - 1].after(clonScreen);
+      screens[screens.length - 1].after(clonScreen.cloneNode(true));
+      screens = document.querySelectorAll('.screen');
     },
     addPrices: function() {
       for (let screen of appData.screens) {
@@ -124,26 +126,17 @@ const appData = {
       }
       appData.fullPrice =  appData.screenPrice + appData.servicePricesNumber + appData.servicePricesPersent;
 
-      appData.servicePercentPrice =  appData.fullPrice - (appData.fullPrice * (appData.rollback / 100));
+      appData.servicePercentPrice =  Math.floor(appData.fullPrice - (appData.fullPrice * (appData.rollback / 100)));
       
       for (let screen of appData.screens) {
           appData.screenCount += +screen.count;
         }
     },
-    changeServicePercentPrice: function () {
-      
-      appData.fullPrice =  appData.screenPrice + appData.servicePricesNumber + appData.servicePricesPersent;
-
-      appData.servicePercentPrice =  appData.fullPrice - (appData.fullPrice * (appData.rollback / 100));
-    },
     changeRange: function () {
-     let arr = [];
-     for (let i = 0; i <= 100; i++) {
-        arr.push(i);
-        typeRange.textContent = parseInt(arr[i]);
-        typeRangeSpan.textContent = typeRange.value + '%';
-        appData.rollback = typeRange.value;
-      }
+      typeRangeSpan.textContent = typeRange.value + '%';
+      appData.rollback = typeRange.value;
+      appData.servicePercentPrice =  Math.floor(appData.fullPrice - (appData.fullPrice * (appData.rollback / 100)));
+      appData.showResult();
     },
     
     logger: function() {
