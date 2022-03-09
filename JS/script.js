@@ -169,7 +169,6 @@ const title = document.getElementsByTagName('h1')[0],
       typeRange.value = 0;
       this.rollback = typeRange.value;
     }, 
-    
     blockInput: function () {
       resetBtn.style.display = 'block';
       startBtn.style.display = 'none';
@@ -181,7 +180,6 @@ const title = document.getElementsByTagName('h1')[0],
       selectScreen.forEach((item) => {
         item.setAttribute('disabled', true);
       })
-     
     }
     
 };
