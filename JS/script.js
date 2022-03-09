@@ -1,5 +1,6 @@
 'use strict';
 let screens = document.querySelectorAll('.screen');
+    
 const title = document.getElementsByTagName('h1')[0],
       startBtn = document.getElementsByClassName('handler_btn')[0],
       resetBtn = document.getElementsByClassName('handler_btn')[1],
@@ -14,8 +15,9 @@ const title = document.getElementsByTagName('h1')[0],
       TotalFullCount = document.getElementsByClassName('total-input')[3],
       TotalCountRollback = document.getElementsByClassName('total-input')[4],
       clonScreen = screens[0].cloneNode(true);
+      
 
-const appData = {
+    const appData = {
     title: '',
     screens: [],
     screenCount: 0,
@@ -34,6 +36,7 @@ const appData = {
       startBtn.addEventListener('click', this.checkForEmpty.bind(this));
       screenBtn.addEventListener('click', this.addScreenBlock.bind(this));
       typeRange.addEventListener('input', this.changeRange.bind(this));
+      resetBtn.addEventListener('click', this.reset.bind(this));
     },
     addTitle: function () {
       document.title = title.textContent;
@@ -41,8 +44,8 @@ const appData = {
     start: function() {
       this.addScreens();
       this.addServises();
-      this.addPrices.bind(this);
-      
+      this.addPrices();
+      this.blockInput();
       // appData.logger();
       this.showResult();
     },
@@ -96,7 +99,7 @@ const appData = {
           this.servicesPersent[label.textContent] = +input.value;
         }
       });
-      otherItemsNumber.forEach(function (item) {
+      otherItemsNumber.forEach((item) => {
         const check = item.querySelector('input[type=checkbox');
         const label = item.querySelector('label');
         const input = item.querySelector('input[type=text');
@@ -124,25 +127,63 @@ const appData = {
         this.servicePricesPersent += this.screenPrice * (this.servicesPersent[key] / 100);
       };
       this.fullPrice =  this.screenPrice + this.servicePricesNumber + this.servicePricesPersent;
-
+     
       this.servicePercentPrice =  Math.floor(this.fullPrice - (this.fullPrice * (this.rollback / 100)));
-      
+         
       for (let screen of this.screens) {
         this.screenCount += +screen.count;
         };
+        
     },
     changeRange: function () {
       typeRangeSpan.textContent = typeRange.value + '%';
       this.rollback = typeRange.value;
       this.servicePercentPrice =  Math.floor(this.fullPrice - (this.fullPrice * (this.rollback / 100)));
       this.showResult();
+    },
+    reset: function () {
+      resetBtn.style.display = 'none';
+      startBtn.style.display = 'block';
+      let inputTypeText = document.querySelectorAll('.screen input[type=text]');
+      let selectScreen = document.querySelectorAll('.screen select');
+      let inputCost = document.querySelectorAll('.total-input');
+      
+      inputTypeText.forEach((item) => {
+        item.removeAttribute('disabled');
+        item.value = '';
+      })
+      selectScreen.forEach((item) => {
+        item.removeAttribute('disabled');
+        item.selectedIndex = 0;
+      })
+      inputCost.forEach((item) => {
+        item.value = '';
+      })
+      screens.forEach((item, i) => {
+        if (i > 0) {
+          item.remove();
+        }
+        
+      })
+      typeRangeSpan.textContent = 0 + '%';
+      typeRange.value = 0;
+      this.rollback = typeRange.value;
+    }, 
+    
+    blockInput: function () {
+      resetBtn.style.display = 'block';
+      startBtn.style.display = 'none';
+      let inputTypeText = document.querySelectorAll('.screen input[type=text]');
+      let selectScreen = document.querySelectorAll('.screen select');
+      inputTypeText.forEach((item) => {
+        item.setAttribute('disabled', true);
+      })
+      selectScreen.forEach((item) => {
+        item.setAttribute('disabled', true);
+      })
+     
     }
     
-    // logger: function() {
-    //   console.log(this.fullPrice);
-    //   console.log(this.servicePercentPrice);
-    //   console.log(this.screens);
-    // }
 };
 
 appData.init();
