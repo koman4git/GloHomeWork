@@ -9,11 +9,11 @@ const title = document.getElementsByTagName('h1')[0],
       otherItemsNumber  = document.querySelectorAll('.other-items.number '),
       typeRange = document.querySelector('.rollback  input'),
       typeRangeSpan = document.querySelector('.rollback  span'),
-      InputCost = document.getElementsByClassName('total-input')[0],
-      TotalCount = document.getElementsByClassName('total-input')[1],
-      TotalCountOther = document.getElementsByClassName('total-input')[2],
-      TotalFullCount = document.getElementsByClassName('total-input')[3],
-      TotalCountRollback = document.getElementsByClassName('total-input')[4],
+      inputCost = document.getElementsByClassName('total-input')[0],
+      totalCount = document.getElementsByClassName('total-input')[1],
+      totalCountOther = document.getElementsByClassName('total-input')[2],
+      totalFullCount = document.getElementsByClassName('total-input')[3],
+      totalCountRollback = document.getElementsByClassName('total-input')[4],
       clonScreen = screens[0].cloneNode(true);
       
 
@@ -67,11 +67,11 @@ const title = document.getElementsByTagName('h1')[0],
       }
     },
     showResult: function () {
-      InputCost.value = this.screenPrice;
-      TotalCountOther.value = this.servicePricesPersent + this.servicePricesNumber;
-      TotalFullCount.value = this.fullPrice;
-      TotalCountRollback.value = this.servicePercentPrice;
-      TotalCount.value = this.screenCount;
+      inputCost.value = this.screenPrice;
+      totalCountOther.value = this.servicePricesPersent + this.servicePricesNumber;
+      totalFullCount.value = this.fullPrice;
+      totalCountRollback.value = this.servicePercentPrice;
+      totalCount.value = this.screenCount;
     },
     addScreens: function () {
       this.screens.length = 0;
